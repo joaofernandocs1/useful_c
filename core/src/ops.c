@@ -4,10 +4,10 @@
 #include "ops.h"
 
 /* validado */
-#define FRACTUM_DEC3TOBCD(valor) ((valor/100 << 8) | (valor/10 << 4) | (valor%10)) /* < Transforma em BCD */
+#define DEC3TOBCD(valor) ((valor/100 << 8) | (valor/10 << 4) | (valor%10)) /* < Transforma em BCD */
 /* validado */
-#define FRACTUM_DEC2TOBCD(valor) ((valor/10 << 4) | (valor%10)) /* < Transforma em BCD */
-#define FRACTUM_SEPARA_BYTE_EVENTO 0x000F
+#define DEC2TOBCD(valor) ((valor/10 << 4) | (valor%10)) /* < Transforma em BCD */
+#define SEPARA_BYTE_EVENTO 0x000F
 
 unsigned short binaryTimes(unsigned short a, unsigned short b) {
     unsigned int result = 0;
@@ -82,9 +82,9 @@ static inline char printSomeInlineChar () {
 void decomposeEvent(unsigned int evento) 
 { 
     /* evento = 0x01B7 */
-    unsigned char lsb = (unsigned char)((FRACTUM_DEC3TOBCD(evento)) & FRACTUM_SEPARA_BYTE_EVENTO); /* 1 byte LSB */ 
-    unsigned char mid = (unsigned char)(((FRACTUM_DEC3TOBCD(evento)) >> 4) & FRACTUM_SEPARA_BYTE_EVENTO); /* 1 byte do meio */
-    unsigned char msb = (unsigned char)(((FRACTUM_DEC3TOBCD(evento)) >> 8) & FRACTUM_SEPARA_BYTE_EVENTO); /* 1 byte MSB */
+    unsigned char lsb = (unsigned char)((DEC3TOBCD(evento)) & SEPARA_BYTE_EVENTO); /* 1 byte LSB */ 
+    unsigned char mid = (unsigned char)(((DEC3TOBCD(evento)) >> 4) & SEPARA_BYTE_EVENTO); /* 1 byte do meio */
+    unsigned char msb = (unsigned char)(((DEC3TOBCD(evento)) >> 8) & SEPARA_BYTE_EVENTO); /* 1 byte MSB */
 
     printf("MSB is %X ", msb);
     printf("MID is %X ", mid);
@@ -100,7 +100,7 @@ void dec3ToBcd(unsigned int num)
     unsigned int bcd = (cents << 8) | (tens << 4) | units;
 
     printf("%d[BCD] is %d[DEC]\n", num, bcd);
-    printf("%d[BCD] is %d[DEC]\n", num, FRACTUM_DEC3TOBCD(num));
+    printf("%d[BCD] is %d[DEC]\n", num, DEC3TOBCD(num));
 }
 
 void dec2ToBcd(unsigned char num) 
@@ -111,7 +111,7 @@ void dec2ToBcd(unsigned char num)
     unsigned char bcd = (tens << 4) | units;
 
     //printf("%d[BCD] is %d[DEC]\n", num, bcd);
-    printf("%d[BCD] is %d[DEC]\n", num, FRACTUM_DEC2TOBCD(num));
+    printf("%d[BCD] is %d[DEC]\n", num, DEC2TOBCD(num));
 }
 
 void bcd2ToDec(unsigned char bcd) 
